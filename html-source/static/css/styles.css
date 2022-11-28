@@ -1,0 +1,21 @@
+.my-footer {
+    height: 5em;
+    background-color: #163b65;
+    margin-top: 1.5em;
+    padding: 1em;
+    color: #ffffff;
+    font-size: 80%;
+}
+
+.room-image {
+    width: 50%
+}
+
+/* NOTIE override */
+.notie-container {
+    box-shadow: none;
+}
+
+.swal2-actions {
+    z-index: inherit !important;
+}
