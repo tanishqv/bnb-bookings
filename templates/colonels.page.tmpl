@@ -1,0 +1,55 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img src="/static/images/colonels-suite.png" class="img-fluid img-thumbnail mx-auto d-block room-image"
+                alt="room-image">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-4">Colonel's Suite</h1>
+            <h5 class="text-center text-muted fst-italic">Your home away from home, set on the majestic waters of
+                the Atlantic Ocean</h5>
+            <p class="p-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos tenetur, hic temporibus id
+                inventore nam quas et autem dicta atque ipsam aperiam illo reiciendis veritatis. Iusto sit ipsa
+                eligendi dolorum.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col text-center">
+            <a id="check-availability-btn" href="#!" class="btn btn-success">Check Availability</a>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "js"}}
+<script>
+    document.getElementById("check-availability-btn").addEventListener("click", function () {
+        let html = `
+    <form id="check-availability-form" action="" method="POST" novalidate
+        class="row row-cols g-3 align-items-center needs-validation">
+        <div class="col">
+            <div class="row row-cols g-3 align-items-center" id="reservation-dates-modal">
+                <div class="col mx-1 my-4">
+                    <input disabled required class="form-control" type="text" name="start" id="start"
+                        placeholder="Arrival">
+                </div>
+                <div class="col mx-1 my-4">
+                    <input disabled required class="form-control" type="text" name="end" id="end"
+                        placeholder="Departure">
+                </div>
+            </div>
+        </div>
+    </form>
+    `
+
+        attention.custom({ msg: html, title: "Choose dates" })
+    })
+
+</script>
+{{end}}
