@@ -6,8 +6,9 @@
         <div class="col-md-6">
             <h1 class="mt-5">Search for Availability</h1>
 
-            <form action="" method="GET" id="reservation-dates" novalidate
+            <form action="/search-availability" method="POST" id="reservation-dates" novalidate
                 class="row row-cols g-3 align-items-center needs-validation">
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
                 <div class="col mb-3">
                     <label for="start-date" class="form-label">Starting date</label>
                     <input type="text" class="form-control" id="start-date" name="start"
