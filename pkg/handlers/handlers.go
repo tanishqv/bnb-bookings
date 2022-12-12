@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/tanishqv/bnb-bookings/pkg/config"
@@ -78,6 +80,32 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	end := r.Form.Get("end")
 
 	w.Write([]byte(fmt.Sprintf("Start date is %s and end data is %s", start, end)))
+}
+
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+	Start   string `json:"start_date"`
+	End     string `json:"end_date"`
+}
+
+// AvailabilityJSON handles req for availability and send JSON response
+func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Available!",
+		Start:   r.Form.Get("start"),
+		End:     r.Form.Get("end"),
+	}
+
+	out, err := json.MarshalIndent(resp, "", "     ")
+	if err != nil {
+		log.Println(err)
+	}
+
+	// log.Println(string(out))
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 // Contact renders the contact page
