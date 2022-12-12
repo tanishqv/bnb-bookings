@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/tanishqv/bnb-bookings/pkg/config"
-	"github.com/tanishqv/bnb-bookings/pkg/handlers"
-	"github.com/tanishqv/bnb-bookings/pkg/render"
+	"github.com/tanishqv/bnb-bookings/internal/config"
+	"github.com/tanishqv/bnb-bookings/internal/handlers"
+	"github.com/tanishqv/bnb-bookings/internal/render"
 )
 
 const portNumber = ":8080"

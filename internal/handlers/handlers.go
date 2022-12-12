@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/tanishqv/bnb-bookings/pkg/config"
-	"github.com/tanishqv/bnb-bookings/pkg/models"
-	"github.com/tanishqv/bnb-bookings/pkg/render"
+	"github.com/tanishqv/bnb-bookings/internal/config"
+	"github.com/tanishqv/bnb-bookings/internal/models"
+	"github.com/tanishqv/bnb-bookings/internal/render"
 )
 
 // Handlers may not use template cache, but the config may be updated with things that makes the application run better

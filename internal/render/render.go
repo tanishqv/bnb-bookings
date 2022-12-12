@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 
 	"github.com/justinas/nosurf"
-	"github.com/tanishqv/bnb-bookings/pkg/config"
-	"github.com/tanishqv/bnb-bookings/pkg/models"
+	"github.com/tanishqv/bnb-bookings/internal/config"
+	"github.com/tanishqv/bnb-bookings/internal/models"
 )
 
 var app *config.AppConfig
