@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/tanishqv/bnb-bookings/internal/config"
 	"github.com/tanishqv/bnb-bookings/internal/handlers"
+	"github.com/tanishqv/bnb-bookings/internal/models"
 	"github.com/tanishqv/bnb-bookings/internal/render"
 )
 
@@ -19,6 +21,8 @@ var session *scs.SessionManager
 
 // main is the main application function
 func main() {
+	gob.Register(models.Reservation{})
+
 	// Change to true when in production
 	app.InProduction = false
 
