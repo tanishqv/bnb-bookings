@@ -6,10 +6,13 @@ import (
 	"net/http"
 
 	"github.com/tanishqv/bnb-bookings/internal/config"
+	"github.com/tanishqv/bnb-bookings/internal/driver"
 	"github.com/tanishqv/bnb-bookings/internal/forms"
 	"github.com/tanishqv/bnb-bookings/internal/helpers"
 	"github.com/tanishqv/bnb-bookings/internal/models"
 	"github.com/tanishqv/bnb-bookings/internal/render"
+	"github.com/tanishqv/bnb-bookings/internal/repository"
+	"github.com/tanishqv/bnb-bookings/internal/repository/dbrepo"
 )
 
 // Handlers may not use template cache, but the config may be updated with things that makes the application run better
@@ -21,12 +24,14 @@ var Repo *Repository
 // Repository is thr repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 

@@ -10,10 +10,13 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/tanishqv/bnb-bookings/internal/config"
+	"github.com/tanishqv/bnb-bookings/internal/driver"
 	"github.com/tanishqv/bnb-bookings/internal/handlers"
 	"github.com/tanishqv/bnb-bookings/internal/helpers"
 	"github.com/tanishqv/bnb-bookings/internal/models"
 	"github.com/tanishqv/bnb-bookings/internal/render"
+
+	_ "github.com/jackc/pgx/v5"
 )
 
 const portNumber = ":8080"
@@ -25,10 +28,11 @@ var errorLog *log.Logger
 
 // main is the main application function
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	fmt.Printf("Starting application on %s\n", portNumber)
 
@@ -41,7 +45,7 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	gob.Register(models.Reservation{})
 
 	// Change to true when in production
@@ -61,19 +65,27 @@ func run() error {
 
 	app.Session = session
 
+	// Connecting to database
+	app.InfoLog.Println("Connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=postgres password=postgres")
+	if err != nil {
+		app.ErrorLog.Fatal("Cannot connect to database! Closing the application...")
+	}
+	app.InfoLog.Println("Connected to database!")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }
