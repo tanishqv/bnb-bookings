@@ -29,61 +29,6 @@
 
 {{define "js"}}
 <script>
-    document.getElementById("check-availability-btn").addEventListener("click", function () {
-        let html = `
-    <form id="check-availability-form" action="" method="POST" novalidate
-        class="row row-cols g-3 align-items-center needs-validation">
-        <div class="col">
-            <div class="row row-cols g-3 align-items-center" id="reservation-dates-modal">
-                <div class="col mx-1 my-4">
-                    <input disabled required class="form-control" type="text" name="start" id="start"
-                        placeholder="Arrival">
-                </div>
-                <div class="col mx-1 my-4">
-                    <input disabled required class="form-control" type="text" name="end" id="end"
-                        placeholder="Departure">
-                </div>
-            </div>
-        </div>
-    </form>
-    `
-
-        attention.custom({
-            msg: html,
-            title: "Choose dates",
-            willOpen: () => {
-                const elem = document.getElementById("reservation-dates-modal")
-                const rangePicker = new DateRangePicker(elem, {
-                    format: 'dd-mm-yyyy',
-                    showOnFocus: true,
-                })
-            },
-            didOpen: () => {
-                document.getElementById("start").removeAttribute("disabled")
-                document.getElementById("end").removeAttribute("disabled")
-            },
-            callback: function (result) {
-                console.log("called")
-
-                let form = document.getElementById("check-availability-form")
-                let formData = new FormData(form)
-                formData.append("csrf_token", "{{.CSRFToken}}")
-
-                fetch("/search-availability-json", {
-                    method: "post",
-                    body: formData,
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        console.log(data.ok)
-                        console.log(data.message)
-                        console.log("start", data.start_date)
-                        console.log("end", data.end_date)
-                    })
-            }
-        })
-    })
-
+    CheckAvailabilityAndBookRoom("1", {{.CSRFToken}})
 </script>
 {{end}}

@@ -29,27 +29,6 @@
 
 {{define "js"}}
 <script>
-    document.getElementById("check-availability-btn").addEventListener("click", function () {
-        let html = `
-    <form id="check-availability-form" action="" method="POST" novalidate
-        class="row row-cols g-3 align-items-center needs-validation">
-        <div class="col">
-            <div class="row row-cols g-3 align-items-center" id="reservation-dates-modal">
-                <div class="col mx-1 my-4">
-                    <input disabled required class="form-control" type="text" name="start" id="start"
-                        placeholder="Arrival">
-                </div>
-                <div class="col mx-1 my-4">
-                    <input disabled required class="form-control" type="text" name="end" id="end"
-                        placeholder="Departure">
-                </div>
-            </div>
-        </div>
-    </form>
-    `
-
-        attention.custom({ msg: html, title: "Choose dates" })
-    })
-
+    CheckAvailabilityAndBookRoom("2", {{.CSRFToken}})
 </script>
 {{end}}

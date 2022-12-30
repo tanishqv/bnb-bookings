@@ -4,11 +4,36 @@
 <div class="container">
     <div class="row">
         <h1>Make reservation</h1>
-        <h6>Enter reservation details</h6>
+        <h5>Reservation details</h5>
 
         {{$res := index .Data "reservation"}}
+        
+        <p>
+            Room: {{$res.Room.RoomName}}<br>
+            Arrival: {{index .StringMap "start-date"}}<br>
+            Departure: {{index .StringMap "end-date"}}
+        </p>
+
         <form action="" method="post" class="" novalidate>
             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+            <input type="hidden" name="start-date" value="{{index .StringMap "start-date"}}">
+            <input type="hidden" name="end-date" value="{{index .StringMap "end-date"}}">
+            <!-- <div class="mb-3">
+                <label class="form-label" for="start-date">Start Date</label>
+                {{with .Form.Errors.Get "start-date"}}
+                <label for="start-date" class="text-danger">{{.}}</label>
+                {{end}}
+                <input required type="text" class="form-control {{with .Form.Errors.Get "start-date"}} is-invalid {{end}}"
+                    id="start-date" name="start-date" value="{{$res.StartDate}}" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="end-date">End Date</label>
+                {{with .Form.Errors.Get "end-date"}}
+                <label for="end-date" class="text-danger">{{.}}</label>
+                {{end}}
+                <input required type="text" class="form-control {{with .Form.Errors.Get "end-date"}} is-invalid {{end}}"
+                    id="end-date" name="end-date" value="{{$res.EndDate}}" autocomplete="off">
+            </div> -->
             <div class="mb-3">
                 <label class="form-label" for="first-name">First name</label>
                 {{with .Form.Errors.Get "first-name"}}
@@ -40,6 +65,9 @@
                 {{end}}
                 <input required type="phone" class="form-control {{with .Form.Errors.Get "phone-number"}} is-invalid {{end}}"
                     id="phone-number" name="phone-number" value="{{$res.Phone}}" autocomplete="off">
+            </div>
+            <div>
+                <input type="hidden" name="room-id" value="{{$res.RoomID}}">
             </div>
             <hr>
             <div class="mb-3">

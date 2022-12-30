@@ -1,0 +1,30 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Choose a room</h1>
+            <br>
+
+            {{$rooms := index .Data "rooms"}}
+
+            <div class="row">
+
+                {{range $rooms}}
+
+                <div class="col text-center">
+                    <div class="card list-group-item" style="width: 18rem;">
+                        <img src="/static/images/tray.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{.RoomName}}</h5>
+                            <a href="/choose-room/{{.ID}}" class="btn btn-primary stretched-link">Book now</a>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

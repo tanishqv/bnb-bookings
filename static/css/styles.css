@@ -14,6 +14,7 @@
 /* NOTIE override */
 .notie-container {
     box-shadow: none;
+    z-index: 1020;
 }
 
 .swal2-actions {
