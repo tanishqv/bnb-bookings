@@ -24,7 +24,7 @@ import (
 // Repo is the repository used by the handlers
 var Repo *Repository
 
-// Repository is thr repository type
+// Repository is the repository type
 type Repository struct {
 	App *config.AppConfig
 	DB  repository.DatabaseRepo
@@ -35,6 +35,14 @@ func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
 		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
+	}
+}
+
+// NewTestRepo creates a new repository
+func NewTestRepo(a *config.AppConfig) *Repository {
+	return &Repository{
+		App: a,
+		DB:  dbrepo.NewTestRepo(a),
 	}
 }
 
@@ -67,13 +75,15 @@ func (m *Repository) Colonels(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	res, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		helpers.ServerError(w, errors.New("cannot get reservation from session"))
+		m.App.Session.Put(r.Context(), "error", "cannot get reservation from session")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
 
 	room, err := m.DB.GetRoomByID(res.RoomID)
 	if err != nil {
-		helpers.ServerError(w, err)
+		m.App.Session.Put(r.Context(), "error", "cannot find room")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -223,7 +233,7 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	sd := r.Form.Get("start")
 	ed := r.Form.Get("end")
 
-	// Date: 2022-12-28 -- 01/02 03:04:05PM '06 -0700
+	// Date Syntax: 01/02 03:04:05PM '06 -0700
 	layout := "2006-01-02"
 
 	startDate, err := time.Parse(layout, sd)
@@ -264,7 +274,6 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// log.Println(string(out))
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
 }

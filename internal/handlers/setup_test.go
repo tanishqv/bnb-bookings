@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"testing"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
@@ -25,7 +26,7 @@ var pathToTemplates = "./../../templates"
 var infoLog *log.Logger
 var errorLog *log.Logger
 
-func getRoutes() http.Handler {
+func TestMain(m *testing.M) {
 	// ****************
 	// From main.go
 	// ****************
@@ -57,10 +58,14 @@ func getRoutes() http.Handler {
 	app.TemplateCache = tc
 	app.UseCache = true
 
-	repo := NewRepo(&app)
+	repo := NewTestRepo(&app)
 	NewHandlers(repo)
 	render.NewRenderer(&app)
 
+	os.Exit(m.Run())
+}
+
+func getRoutes() http.Handler {
 	// ****************
 	// From routes.go
 	// ****************
