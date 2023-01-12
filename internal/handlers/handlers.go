@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -165,6 +166,55 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
+
+	// Send email notification to guest
+	htmlMessage := fmt.Sprintf(`
+		<strong>Reservation Confirmation</strong>
+		<hr>
+		Dear %s, <br>
+		This is to inform you about your reservation at Fort Smythe BnB. Please find the necessary details mentioned below: <br>
+		<div style="text-align:center !important;">
+			<strong>Room</strong>: %s <br>
+			<strong>Duration</strong>: %s to %s <br>
+		</div>
+	`,
+		reservation.FirstName+reservation.LastName,
+		reservation.Room.RoomName,
+		reservation.StartDate.Format("2006-01-02"),
+		reservation.EndDate.Format("2006-01-02"))
+
+	msg := models.MailData{
+		To:      reservation.Email,
+		From:    "manager@fsbnb.com",
+		Subject: "Reservation Confirmation",
+		Content: htmlMessage,
+	}
+
+	m.App.MailChan <- msg
+
+	// Send email notification to property owner
+	htmlMessage = fmt.Sprintf(`
+		<strong>Reservation Notification</strong>
+		<hr>
+		Mr/Ms Property Owner <br>
+		A reservation has been made at Fort Smythe BnB. Please find the necessary details mentioned below: <br>
+		<div style="text-align:center !important;">
+			<strong>Room</strong>: %s <br>
+			<strong>Duration</strong>: %s to %s <br>
+		</div>
+	`,
+		reservation.Room.RoomName,
+		reservation.StartDate.Format("2006-01-02"),
+		reservation.EndDate.Format("2006-01-02"))
+
+	msg = models.MailData{
+		To:      "property-owner@fsbnb.com",
+		From:    "manager@fsbnb.com",
+		Subject: "Reservation Notification",
+		Content: htmlMessage,
+	}
+
+	m.App.MailChan <- msg
 
 	m.App.Session.Put(r.Context(), "reservation", reservation)
 	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
