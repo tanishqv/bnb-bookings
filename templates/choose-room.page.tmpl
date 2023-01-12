@@ -15,7 +15,13 @@
 
                 <div class="col text-center">
                     <div class="card list-group-item" style="width: 18rem;">
-                        <img src="/static/images/tray.png" class="card-img-top" alt="...">
+                        {{if eq .ID 1}}
+                            <img src="/static/images/generals-quarters.png" class="card-img-top" alt="...">
+                        {{else if eq .ID 2}}
+                            <img src="/static/images/colonels-suite.png" class="card-img-top" alt="...">
+                        {{else}}
+                            <img src="/static/images/tray.png" class="card-img-top" alt="...">
+                        {{end}}
                         <div class="card-body">
                             <h5 class="card-title">{{.RoomName}}</h5>
                             <a href="/choose-room/{{.ID}}" class="btn btn-primary stretched-link">Book now</a>
