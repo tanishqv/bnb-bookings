@@ -14,7 +14,7 @@
             Departure: {{index .StringMap "end-date"}}
         </p>
 
-        <form action="" method="post" class="" novalidate>
+        <form action="/make-reservation" method="post" class="" novalidate>
             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
             <input type="hidden" name="start-date" value="{{index .StringMap "start-date"}}">
             <input type="hidden" name="end-date" value="{{index .StringMap "end-date"}}">

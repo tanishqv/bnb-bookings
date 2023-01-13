@@ -47,6 +47,13 @@
                         <a class="nav-link" href="/contact">Contact</a>
                     </li>
                 </ul>
+                <div class="ms-auto">
+                    {{if eq .IsAuthenticated 1}}
+                        <a class="btn btn-danger" href="/user/logout">Logout</a>
+                    {{else}}
+                        <a class="btn btn-success" href="/user/login">Login</a>
+                    {{end}}
+                </div>
             </div>
         </div>
     </nav>
