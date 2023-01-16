@@ -37,3 +37,11 @@
         </div>
     </div>
     {{end}}
+
+{{block "js" .}}
+<script>
+    window.onload = function() {
+        document.getElementById("email").focus()
+    }
+</script>
+{{end}}
