@@ -2,6 +2,7 @@
     height: 5em;
     background-color: #163b65;
     margin-top: 1.5em;
+    margin-right: auto;
     padding: 1em;
     color: #ffffff;
     font-size: 80%;
@@ -19,4 +20,9 @@
 
 .swal2-actions {
     z-index: inherit !important;
+}
+
+.logout:hover {
+        color: #fff !important;
+        background-color: RGBA(220, 53, 69, var(--bs-bg-opacity, 1)) !important;
 }

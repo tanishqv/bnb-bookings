@@ -11,6 +11,7 @@ import (
 	"github.com/tanishqv/bnb-bookings/internal/config"
 	"github.com/tanishqv/bnb-bookings/internal/driver"
 	"github.com/tanishqv/bnb-bookings/internal/forms"
+	"github.com/tanishqv/bnb-bookings/internal/helpers"
 	"github.com/tanishqv/bnb-bookings/internal/models"
 	"github.com/tanishqv/bnb-bookings/internal/render"
 	"github.com/tanishqv/bnb-bookings/internal/repository"
@@ -178,7 +179,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 			<strong>Duration</strong>: %s to %s <br>
 		</div>
 	`,
-		reservation.FirstName+reservation.LastName,
+		reservation.FirstName+" "+reservation.LastName,
 		reservation.Room.RoomName,
 		reservation.StartDate.Format("2006-01-02"),
 		reservation.EndDate.Format("2006-01-02"))
@@ -199,10 +200,12 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		Mr/Ms Property Owner <br>
 		A reservation has been made at Fort Smythe BnB. Please find the necessary details mentioned below: <br>
 		<div style="text-align:center !important;">
+			<strong>Customer Name:</strong>: %s <br>
 			<strong>Room</strong>: %s <br>
 			<strong>Duration</strong>: %s to %s <br>
 		</div>
 	`,
+		reservation.FirstName+" "+reservation.LastName,
 		reservation.Room.RoomName,
 		reservation.StartDate.Format("2006-01-02"),
 		reservation.EndDate.Format("2006-01-02"))
@@ -485,7 +488,7 @@ func (m *Repository) BookRoom(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/make-reservation", http.StatusSeeOther)
 }
 
-// ShowLogin is the login page handler
+// ShowLogin shows the login page
 func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "login.page.tmpl", &models.TemplateData{
 		Form: forms.New(nil),
@@ -535,4 +538,46 @@ func (m *Repository) Logout(w http.ResponseWriter, r *http.Request) {
 
 	m.App.Session.Put(r.Context(), "flash", "Logged out successfully")
 	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+}
+
+// AdminDashboard renders the admin dashboard
+func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
+}
+
+// AdminAllReservations shows all reservations in admin tool
+func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request) {
+	reservations, err := m.DB.AllReservations()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["reservations"] = reservations
+
+	render.RenderTemplate(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
+}
+
+// AdminNewReservations shows all new reservations in admin tool
+func (m *Repository) AdminNewReservations(w http.ResponseWriter, r *http.Request) {
+	reservations, err := m.DB.AllNewReservations()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["reservations"] = reservations
+
+	render.RenderTemplate(w, r, "admin-new-reservations.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
+}
+
+// AdminReservationsCalendar
+func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "admin-reservations-calendar.page.tmpl", &models.TemplateData{})
 }

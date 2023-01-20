@@ -1,0 +1,12 @@
+svg,
+.svg-text {
+    vertical-align: middle;
+}
+
+svg {
+    fill: currentColor;
+}
+
+.submenu-p {
+    padding-inline-start: 60px;
+}

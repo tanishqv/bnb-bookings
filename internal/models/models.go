@@ -55,6 +55,8 @@ type Reservation struct {
 
 	// Not necessary to put fields exactly as they exist in DB table, other info can also be put
 	Room Room
+
+	Processed int
 }
 
 // RoomRestriction is the room restriction model
