@@ -10,3 +10,7 @@ svg {
 .submenu-p {
     padding-inline-start: 60px;
 }
+
+label {
+    font-weight: bold;
+}
