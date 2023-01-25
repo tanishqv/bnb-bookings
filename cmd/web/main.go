@@ -54,6 +54,7 @@ func run() (*driver.DB, error) {
 	// Things which are going to be put in the session
 	gob.Register(models.Reservation{})
 	gob.Register(models.Room{})
+	gob.Register(map[string]int{})
 
 	mailChan := make(chan models.MailData)
 	app.MailChan = mailChan

@@ -92,6 +92,13 @@ func (tr *testDBRepo) SearchAvailabilityForAllRoomsByDates(start, end time.Time)
 	return rooms, nil
 }
 
+// AllRooms returns a slice of all rooms in the database
+func (tr *testDBRepo) AllRooms() ([]models.Room, error) {
+	var rooms []models.Room
+
+	return rooms, nil
+}
+
 // GetRoomByID gets a room based on its ID
 func (tr *testDBRepo) GetRoomByID(id int) (models.Room, error) {
 	var room models.Room
@@ -152,5 +159,22 @@ func (tr *testDBRepo) DeleteReservation(id int) error {
 
 // UpdateProcessedForReservation updates processed for a reservation by ID
 func (tg *testDBRepo) UpdateProcessedForReservation(id, processed int) error {
+	return nil
+}
+
+// GetRestrictionsForRoomByDate returns restrictions for a room by date range
+func (tr *testDBRepo) GetRestrictionsForRoomByDate(roomID int, start, end time.Time) ([]models.RoomRestriction, error) {
+	var restrictions []models.RoomRestriction
+
+	return restrictions, nil
+}
+
+// InsertBlockForRoom inserts a room restriction
+func (tr *testDBRepo) InsertBlockForRoom(id int, startDate time.Time) error {
+	return nil
+}
+
+// DeleteBlockByID deletes a room restriction
+func (tr *testDBRepo) DeleteBlockByID(id int) error {
 	return nil
 }
