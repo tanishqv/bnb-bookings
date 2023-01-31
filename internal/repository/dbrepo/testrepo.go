@@ -94,15 +94,19 @@ func (tr *testDBRepo) SearchAvailabilityForAllRoomsByDates(start, end time.Time)
 
 // AllRooms returns a slice of all rooms in the database
 func (tr *testDBRepo) AllRooms() ([]models.Room, error) {
-	var rooms []models.Room
-
+	rooms := []models.Room{
+		{
+			ID:       1,
+			RoomName: "Major's Quarters",
+		},
+	}
 	return rooms, nil
 }
 
 // GetRoomByID gets a room based on its ID
 func (tr *testDBRepo) GetRoomByID(id int) (models.Room, error) {
 	var room models.Room
-	if id > 2 {
+	if id == 3 {
 		return room, errors.New("error while getting room")
 	}
 
@@ -123,7 +127,11 @@ func (tr *testDBRepo) UpdateUser(models.User) error {
 
 // Authenticate authenticates a user
 func (tr *testDBRepo) Authenticate(email, testPassword string) (int, string, error) {
-	return 0, "", nil
+	if email == "admin@fsbnb.com" {
+		return 1, "", nil
+	}
+
+	return 0, "", errors.New("invalid credentials")
 }
 
 // AllReservations returns a slice of all the reservations
@@ -154,6 +162,9 @@ func (tr *testDBRepo) UpdateReservation(r models.Reservation) error {
 
 // DeleteReservation deletes a reservation in the database
 func (tr *testDBRepo) DeleteReservation(id int) error {
+	if id == 1000 {
+		return errors.New("error while deleting reservation")
+	}
 	return nil
 }
 
@@ -171,6 +182,9 @@ func (tr *testDBRepo) GetRestrictionsForRoomByDate(roomID int, start, end time.T
 
 // InsertBlockForRoom inserts a room restriction
 func (tr *testDBRepo) InsertBlockForRoom(id int, startDate time.Time) error {
+	if id == 1000 {
+		return errors.New("insert block for room failed")
+	}
 	return nil
 }
 
