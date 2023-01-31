@@ -1,0 +1,2 @@
+INSERT INTO users ("first_name", "last_name", "email", "password", "access_level", "created_at", "updated_at") VALUES
+('Tanishq', 'Verma', 'admin@fsbnb.com', '$2a$12$t2xgPZKw41fBN0MX9mVLtuUIMAsXfGjvDR8kJYCQbmKwrVx/33oiq', 3, '2023-01-23 00:00:00', '2023-01-23 00:00:00');
