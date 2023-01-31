@@ -3,24 +3,20 @@
 {{define "content"}}
 <div class="container">
     <div class="row d-flex justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <h1 class="mt-5">Search for Availability</h1>
 
             <form action="/search-availability" method="POST" novalidate
-                class="needs-validation">
+                class="needs-validation mt-5">
                 <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
                 <div id="reservation-dates" class="row row-cols g-3 align-items-center">
                     <div class="col mb-3">
-                        <label for="start-date" class="form-label">Starting date</label>
                         <input type="text" class="form-control" id="start-date" name="start"
                             aria-describedby="startDateHelp" placeholder="Arrival" required>
-                        <div id="startDateHelp" class="form-text">Enter starting date.</div>
                     </div>
                     <div class="col mb-3">
-                        <label for="end-date" class="form-label">Ending date</label>
                         <input type="text" class="form-control" id="end-date" name="end" aria-describedby="endDateHelp"
                             placeholder="Departure" required>
-                        <div id="endDateHelp" class="form-text">Enter ending date.</div>
                     </div>
                 </div>
                 <div class="row gx-3">
